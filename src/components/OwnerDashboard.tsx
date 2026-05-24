@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { 
+  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip 
+} from "recharts";
+import { 
   Users, 
   CheckCircle, 
   XCircle, 
@@ -228,6 +231,62 @@ export default function OwnerDashboard({
               <p className="text-[10px] text-slate-650 dark:text-slate-300 font-sans leading-relaxed text-left">{al.text}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Dynamic Recharts Production & Efficiency Visualization */}
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-xs transition-all duration-200">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-4 text-left">
+          <div>
+            <h3 className="font-display font-semibold text-sm text-slate-800 dark:text-white">
+              {lang === "EN" ? "Executive Production & Revenue Flow" : "নির্বাহী উৎপাদন ও রাজস্ব প্রবাহ"}
+            </h3>
+            <p className="font-sans text-[11px] text-slate-400 dark:text-slate-500 mt-1">
+              {lang === "EN" ? "Daily completed knitting pieces corresponding to active buyer billings." : "সক্রিয় ক্রেতার বিলের বিপরীতে দৈনিক সম্পূর্ণ বুননকৃত পিসের হিসাব।"}
+            </p>
+          </div>
+          <div className="flex items-center space-x-3 mt-3 sm:mt-0 font-mono text-[10px] text-slate-400 dark:text-slate-500">
+            <span className="flex items-center space-x-1.5"><span className="w-2.5 h-2.5 rounded bg-indigo-500"></span> <span>{lang === "EN" ? "Output Pcs" : "উৎপাদন"}</span></span>
+            <span className="flex items-center space-x-1.5"><span className="w-2.5 h-2.5 rounded bg-emerald-500"></span> <span>{lang === "EN" ? "Revenue (৳)" : "রাজস্ব"}</span></span>
+          </div>
+        </div>
+        <div className="h-64 w-full text-xs font-mono">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={[
+              { day: "05/18", Output: 380, Revenue: 190000 },
+              { day: "05/19", Output: 440, Revenue: 220000 },
+              { day: "05/20", Output: 410, Revenue: 205000 },
+              { day: "05/21", Output: 470, Revenue: 235000 },
+              { day: "05/22", Output: 490, Revenue: 245000 },
+              { day: "05/23", Output: 520, Revenue: 260000 },
+              { day: "05/24", Output: 435, Revenue: 217500 },
+            ]} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorOutput" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.2}/>
+                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.2}/>
+                  <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#1e293b" : "#e2e8f0"} />
+              <XAxis dataKey="day" stroke={isDark ? "#94a3b8" : "#64748b"} fontSize={10} />
+              <YAxis stroke={isDark ? "#94a3b8" : "#64748b"} fontSize={10} />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: isDark ? "#0f172a" : "#ffffff",
+                  borderColor: isDark ? "#334155" : "#e2e8f0",
+                  color: isDark ? "#555555" : "#0f172a",
+                  borderRadius: "8px",
+                  fontSize: "11px"
+                }}
+              />
+              <Area type="monotone" dataKey="Output" stroke="#6366f1" strokeWidth={2} fillOpacity={1} fill="url(#colorOutput)" name={lang === "EN" ? "Output (Pcs)" : "উৎপাদন (পিস)"} />
+              <Area type="monotone" dataKey="Revenue" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#colorRev)" name={lang === "EN" ? "Revenue (৳)" : "রাজস্ব (৳)"} />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
       </div>
 

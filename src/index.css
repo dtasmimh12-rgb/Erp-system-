@@ -7,50 +7,182 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   /* Custom Corporative Brand Palette for OTTOMASS JACQUARD: Deep Navy / Indigo & Emerald */
-  --color-primary: #0f172a; /* Slate 900 */
-  --color-primary-light: #1e293b; /* Slate 800 */
-  --color-accent: #0ea5e9; /* Sky 500 */
-  --color-emerald-accent: #10b981; /* Emerald 500 */
+  --color-primary: #080718; /* Deep Amethyst Onyx */
+  --color-primary-light: #100e26; /* Deep Velvet Blue */
+  --color-accent: #6366f1; /* Royal Amethyst */
+  --color-emerald-accent: #10b981; /* Jade Emerald */
   
-  --animate-fade-in: fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in: fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  /* Premium High Contrast light-theme slate overrides to prevent faint text labels */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #64748b; /* Sharpened contrast from standard 94a3b8 */
+  --color-slate-500: #475569; /* Crisp and easily readable secondary labels */
+  --color-slate-600: #334155;
+  --color-slate-700: #1e293b;
+  --color-slate-800: #0f172a;
+  --color-slate-900: #090d16;
+  --color-slate-950: #03050a;
+}
+
+/* Precious Theme Overrides for Luxury Dark Mode & High contrast light mode */
+.dark {
+  /* Elevate standard slate colors into prestigious, deep precious jewel tones */
+  --color-slate-950: #030206;   /* Onyx velvet black background */
+  --color-slate-900: #070512;   /* Imperial deep amethyst background */
+  --color-slate-850: #0f0b24;   /* Elevating card background */
+  --color-slate-800: #161234;   /* Polished deep slate purple borders */
+  --color-slate-755: #211c4d;   /* Elegant border separators */
+  --color-slate-700: #2a2460;   /* Glowing structural rules */
+  
+  /* Luminous, highly legible silver-lavender values for dark-mode text */
+  --color-slate-600: #8881bd;   /* Easily readable supporting tag text */
+  --color-slate-500: #a7a1d7;   /* Highly legible secondary instructions & descriptions */
+  --color-slate-400: #c1bce6;   /* Rich, crispy body typography for forms and grids */
+  --color-slate-300: #dad7f3;   /* High-brightness metadata and tags */
+  --color-slate-200: #e9e7f9;   /* Ultra-vibrant subtitle helper */
+  --color-slate-101: #1a163b;   /* Extra dark line for HR header bounds */
+  --color-slate-100: #f5f4fd;   /* Sparkling title/paragraph copy */
+  --color-slate-50:  #fafaff;   /* Diamond white high-contrast headings */
+
+  /* Swap standard Indigo and emerald tones for high-saturation, eye-catching jewel outputs */
+  --color-indigo-650: #4f46e5;
+  --color-indigo-600: #6366f1;  /* Vivid royal amethyst */
+  --color-indigo-500: #818cf8;
+  --color-indigo-400: #a5b4fc;
+  --color-emerald-650: #058f5e;
+  --color-emerald-600: #05b074; /* Precious Jade green */
+  --color-emerald-500: #10b981;
+  --color-emerald-400: #34d399;
+  --color-rose-600: #f43f5e;    /* Precious rubine red */
+  --color-rose-500: #fb7185;
+}
+
+/* Custom classy overrides for hardcoded container colors in dark mode */
+.dark .dark\:bg-\[\#111827\] {
+  background-color: #0b0a1f !important;
+  border-color: #1a183d !important;
+}
+.dark .dark\:bg-slate-900 {
+  background-color: #070512 !important;
+}
+.dark .dark\:bg-[#111827] {
+  background-color: #0b0a1f !important;
+  border-color: #1a183d !important;
+}
+.dark .dark\:border-slate-850 {
+  border-color: #14112e !important;
+}
+.dark .dark\:border-slate-800 {
+  border-color: #1a183d !important;
+}
+
+/* Custom layout background gradients for eye-catching look */
+.dark .dark-gradient-bg {
+  background: radial-gradient(circle at 50% 0%, #100b2a 0%, #030206 100%) !important;
+}
+
+/* Enhance tables for look and scan-density */
+.dark table thead.bg-\[\#111827\],
+.dark table thead.bg-slate-900 {
+  background-color: #0c0b24 !important;
+  border-color: #1a183d !important;
+}
+
+/* Premium text and badge gradients */
+.text-precious-indigo {
+  background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-precious-emerald {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom premium hover effects for interactive buttons */
+.btn-precious {
+  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 50%, #10b981 100%);
+  background-size: 200% auto;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-precious:hover {
+  background-position: right center;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
+}
+
+.dark .btn-precious {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #05b074 100%);
+  background-size: 200% auto;
+}
+.dark .btn-precious:hover {
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.45);
 }
 
 /* Custom scrollbars for high density */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #c7cbd4;
   border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #251e4d;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #393077;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.dark .glass {
+  background: rgba(7, 5, 18, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(32, 26, 79, 0.35);
 }
 
 .card-stat {
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .card-stat:hover {
-  transform: translateY(-1px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -10px rgba(99, 102, 241, 0.15);
+}
+.dark .card-stat:hover {
+  box-shadow: 0 12px 24px -10px rgba(168, 85, 247, 0.3);
 }
 
 .active-link {
-  background-color: #1e293b !important;
-  border-left: 4px solid #10b981 !important;
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, rgba(124, 58, 237, 0.05) 100%) !important;
+  border-left: 4px solid #6366f1 !important;
+  color: #ffffff !important;
+}
+.dark .active-link {
+  background: linear-gradient(90deg, rgba(5, 176, 116, 0.15) 0%, rgba(99, 102, 241, 0.05) 100%) !important;
+  border-left: 4px solid #05b074 !important;
   color: #ffffff !important;
 }
 
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;

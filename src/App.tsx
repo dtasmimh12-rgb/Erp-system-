@@ -21,7 +21,7 @@ import {
   createUserWithEmailAndPassword, 
   signOut 
 } from "firebase/auth";
-import { doc, getDoc, getDocs, setDoc, collection } from "firebase/firestore";
+import { doc, getDoc, getDocs, setDoc, deleteDoc, collection } from "firebase/firestore";
 import { auth, db, handleFirestoreError, OperationType } from "./firebase.js";
 
 // Import pre-seeded state snapshot
@@ -299,12 +299,25 @@ export default function App() {
     setStatusBanner(lang === "EN" ? `Created Operator Profile for ${newEmp.name}!` : `${newEmp.name} এর জন্য অপারেটর প্রোফাইল তৈরি করা হয়েছে!`);
     setActiveTab("employees-setup");
     setTimeout(() => setStatusBanner(""), 4000);
+
+    // Live database write sync
+    setDoc(doc(db, "employees", newEmp.id), {
+      ...newEmp,
+      createdAt: new Date().toISOString()
+    }).catch(err => {
+      console.error("Firestore Error seeding employee", err);
+    });
   };
 
   const handleUpdateEmployee = (updatedEmp: Employee) => {
     setEmployees(employees.map(e => e.id === updatedEmp.id ? updatedEmp : e));
     setStatusBanner(lang === "EN" ? `Updated demographics for ${updatedEmp.name}!` : `${updatedEmp.name} এর তথ্য আপডেট করা হয়েছে!`);
     setTimeout(() => setStatusBanner(""), 4000);
+
+    // Live database write sync
+    setDoc(doc(db, "employees", updatedEmp.id), updatedEmp).catch(err => {
+      console.error("Firestore Error updating employee", err);
+    });
   };
 
   const handleDeleteEmployee = (id: string) => {
@@ -312,30 +325,61 @@ export default function App() {
     setEmployees(employees.filter(e => e.id !== id));
     setStatusBanner(lang === "EN" ? "Employee archived successfully (Soft Delete)!" : "কর্মচারীর তথ্য সফলভাবে আর্কাইভ করা হয়েছে!");
     setTimeout(() => setStatusBanner(""), 4000);
+
+    // Live database archive sync
+    deleteDoc(doc(db, "employees", id)).catch(err => {
+      console.error("Firestore Error deleting employee", err);
+    });
   };
 
   const handleApproveLeave = (id: string) => {
     setLeaves(leaves.map(l => l.id === id ? { ...l, status: "Approved" as const } : l));
     setStatusBanner(lang === "EN" ? "Approved Leave Application." : "ছুটির আবদন মঞ্জুর করা হয়েছে।");
     setTimeout(() => setStatusBanner(""), 4000);
+
+    const targetLeave = leaves.find(l => l.id === id);
+    if (targetLeave) {
+      setDoc(doc(db, "leaves", id), {
+        ...targetLeave,
+        status: "Approved"
+      }).catch(e => console.error("Firestore error saving leave status", e));
+    }
   };
 
   const handleRejectLeave = (id: string) => {
     setLeaves(leaves.map(l => l.id === id ? { ...l, status: "Rejected" as const } : l));
     setStatusBanner(lang === "EN" ? "Leave Application Rejected." : "ছুটির আবেদন বাতিল করা হয়েছে।");
     setTimeout(() => setStatusBanner(""), 4000);
+
+    const targetLeave = leaves.find(l => l.id === id);
+    if (targetLeave) {
+      setDoc(doc(db, "leaves", id), {
+        ...targetLeave,
+        status: "Rejected"
+      }).catch(e => console.error("Firestore error saving leave status", e));
+    }
   };
 
   const handleApplyLeave = (newLeave: LeaveApplication) => {
     setLeaves(prev => [newLeave, ...prev]);
     setStatusBanner(lang === "EN" ? "Leave Application submitted successfully." : "ছুটির আবেদন সফলভাবে জমা করা হয়েছে।");
     setTimeout(() => setStatusBanner(""), 4000);
+
+    setDoc(doc(db, "leaves", newLeave.id), newLeave).catch(e => console.error("Firestore error creating leave", e));
   };
 
   const handleApproveAttendance = (id: string) => {
     setAttendance(attendance.map(a => a.id === id ? { ...a, approvalStatus: "Approved" } : a));
     setStatusBanner(lang === "EN" ? "Attendance correction approved successfully." : "উপস্থিতি সংশোধন সফলভাবে মঞ্জুর করা হয়েছে।");
     setTimeout(() => setStatusBanner(""), 4000);
+
+    const targetAtt = attendance.find(a => a.id === id);
+    if (targetAtt) {
+      setDoc(doc(db, "attendance_logs", id), {
+        ...targetAtt,
+        approvalStatus: "Approved"
+      }).catch(e => console.error("Firestore error updating attendance logs", e));
+    }
   };
 
   const handleAddVoucher = (newV: JournalVoucher) => {
@@ -343,7 +387,7 @@ export default function App() {
     
     // Dynamically adjust ledger account balances based on posted debits / credits!
     setAccounts(prevAccounts => {
-      return prevAccounts.map(acc => {
+      const updatedAccounts = prevAccounts.map(acc => {
         let matchedLine = newV.items.find(line => line.accountCode === acc.code);
         if (matchedLine) {
           // Asset and Expense accounts increase on Debit, decrease on Credit
@@ -357,6 +401,22 @@ export default function App() {
         }
         return acc;
       });
+
+      // Seeding updated accounts to general ledger list for keeping balances persistent in Firestore!
+      for (const updatedAcc of updatedAccounts) {
+        setDoc(doc(db, "companies/ottomass-jacquard/accounts", updatedAcc.id), updatedAcc)
+          .catch(err => console.error("Error updating account balance", err));
+      }
+
+      return updatedAccounts;
+    });
+
+    // Write Voucher record back to firestore
+    setDoc(doc(db, "vouchers", newV.id), {
+      ...newV,
+      createdAt: new Date().toISOString()
+    }).catch(err => {
+      console.error("Firestore Error adding voucher transaction", err);
     });
   };
 
@@ -688,7 +748,7 @@ export default function App() {
 
   // 2. PRIMARY APPLICATION WORKSPACE (Authenticated App Layout)
   return (
-    <div className={`min-h-screen ${theme === "dark" ? "dark bg-slate-950 text-slate-100" : "bg-[#f8fafc] text-slate-700"} flex font-sans h-screen overflow-hidden`}>
+    <div className={`min-h-screen ${theme === "dark" ? "dark bg-[#04030a] text-[#f1f3f9]" : "bg-[#fcfcff] text-slate-700"} flex font-sans h-screen overflow-hidden`}>
       
       {/* Drawer Sidebar */}
       <Sidebar 
@@ -721,9 +781,9 @@ export default function App() {
 
         {/* Dynamic Action Notification Banner */}
         {statusBanner && (
-          <div className="bg-slate-900 dark:bg-slate-950 border-b border-indigo-950 px-6 py-2.5 flex items-center justify-between text-[#0ea5e9] dark:text-emerald-400 text-xs font-semibold animate-fade-in no-print z-20">
+          <div className="bg-slate-900 dark:bg-[#04030a] border-b border-indigo-950 px-6 py-2.5 flex items-center justify-between text-[#0ea5e9] dark:text-[#05b074] text-xs font-semibold animate-fade-in no-print z-20">
             <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-emerald-500 animate-ping"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-[#05b074] animate-ping"></span>
               <span>{statusBanner}</span>
             </div>
             <button onClick={() => setStatusBanner("")} className="text-[#0ea5e9] hover:text-white font-mono">
@@ -733,7 +793,7 @@ export default function App() {
         )}
 
         {/* Router View Flow Content */}
-        <main className={`flex-1 overflow-y-auto px-6 py-5 transition-colors duration-250 ${theme === "dark" ? "bg-slate-900 text-slate-100" : "bg-[#f8fafc] text-slate-700"}`}>
+        <main className={`flex-1 overflow-y-auto px-6 py-5 transition-colors duration-250 ${theme === "dark" ? "bg-[#080716] text-[#eef2ff]" : "bg-[#fcfcff] text-slate-750"}`}>
           
           {/* OWNER OVERVIEW DASHBOARD */}
           {activeTab === "owner-dash" && (
@@ -758,7 +818,7 @@ export default function App() {
               onUpdateEmployee={handleUpdateEmployee}
               onDeleteEmployee={handleDeleteEmployee}
               onAddAuditLog={handleAddAuditLog}
-              isDark={false}
+              isDark={theme === "dark"}
               lang={lang}
             />
           )}
@@ -935,7 +995,7 @@ export default function App() {
           {/* COMPANY SETUP STORES */}
           {activeTab === "company-setup" && (
             <Phase1MasterSetup 
-              isDark={false}
+              isDark={theme === "dark"}
               lang={lang}
               onAddAuditLog={handleAddAuditLog}
             />

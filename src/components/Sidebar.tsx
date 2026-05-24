@@ -101,22 +101,22 @@ export default function Sidebar({
       )}
 
       <aside className={`
-        fixed inset-y-0 left-0 z-50 flex flex-col ${isCollapsed ? "lg:w-16 w-60" : "w-64"} bg-[#1e293b] text-slate-300 border-r border-[#334155] transition-all duration-300 ease-in-out transform
+        fixed inset-y-0 left-0 z-50 flex flex-col ${isCollapsed ? "lg:w-16 w-60" : "w-64"} bg-[#0b0a1f] text-slate-300 border-r border-[#1a183d] transition-all duration-300 ease-in-out transform
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0 lg:static lg:h-screen
       `}>
         {/* Sidebar Header */}
-        <div className={`flex items-center ${isCollapsed ? "justify-center animate-fade-in" : "justify-between"} h-16 px-4 border-b border-[#334155] bg-[#0f172a] transition-all duration-300`}>
+        <div className={`flex items-center ${isCollapsed ? "justify-center animate-fade-in" : "justify-between"} h-16 px-4 border-b border-[#1a183d] bg-[#05040e]/95 backdrop-blur-xs transition-all duration-300`}>
           <div className="flex items-center space-x-2.5">
-            <div className="flex items-shrink-0 items-center justify-center w-8 h-8 rounded-lg bg-indigo-650 font-display font-semibold text-white text-md shadow-lg shadow-indigo-650/30">
+            <div className="flex items-shrink-0 items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-purple-600 font-display font-semibold text-white text-md shadow-lg shadow-indigo-600/30">
               O
             </div>
             {!isCollapsed && (
               <div className="animate-fade-in text-left">
-                <h1 className="font-display font-medium text-xs tracking-tight text-white uppercase whitespace-nowrap">
-                  OTTOMASS <span className="text-indigo-400 font-light text-[10px]">JACQUARD</span>
+                <h1 className="font-display font-semibold text-[11px] tracking-tight text-white uppercase whitespace-nowrap">
+                  OTTOMASS <span className="text-emerald-400 font-bold ml-0.5">JACQUARD</span>
                 </h1>
-                <p className="font-mono text-[8px] tracking-widest text-slate-400 font-medium uppercase leading-none mt-0.5">
+                <p className="font-mono text-[8px] tracking-widest text-[#a5b4fc]/70 font-semibold uppercase leading-none mt-0.5">
                   Enterprise ERP
                 </p>
               </div>
@@ -133,26 +133,26 @@ export default function Sidebar({
         </div>
 
         {/* User Info Capsule */}
-        <div className={`px-3 py-3 border-b border-[#334155] bg-[#0f172a]/20 ${isCollapsed ? "flex justify-center" : ""}`}>
+        <div className={`px-3 py-3 border-b border-[#1a183d] bg-[#05040e]/30 ${isCollapsed ? "flex justify-center" : ""}`}>
           {isCollapsed ? (
             <div 
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 text-[10px] text-indigo-400 font-bold border border-slate-750 cursor-help animate-fade-in"
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-950/80 text-[10px] text-[#818cf8] font-bold border border-indigo-800/40 cursor-help animate-fade-in"
               title={userRole === "Owner" ? "Mr. Tariqul Islam (Owner)" : "Office Staff / Manager (Office)"}
             >
               {userRole[0]}
             </div>
           ) : (
-            <div className="flex items-center space-x-2.5 p-2 rounded-lg bg-slate-900/40 border border-slate-800 w-full animate-fade-in">
-              <div className="flex items-shrink-0 items-center justify-center w-7 h-7 rounded-full bg-slate-800 text-[10px] text-indigo-400 font-bold border border-slate-700">
+            <div className="flex items-center space-x-2.5 p-2 rounded-lg bg-indigo-950/40 border border-[#1a183d] w-full animate-fade-in">
+              <div className="flex items-shrink-0 items-center justify-center w-7 h-7 rounded-full bg-indigo-950 text-[10px] text-[#818cf8] font-bold border border-indigo-800/30">
                 {userRole[0]}
               </div>
               <div className="overflow-hidden text-left">
-                <p className="font-sans font-medium text-[11px] text-slate-200 truncate pr-1 whitespace-nowrap">
+                <p className="font-sans font-medium text-[11px] text-slate-100 truncate pr-1 whitespace-nowrap">
                   {userRole === "Owner" ? "Mr. Tariqul Islam" : "Office Staff / Manager"}
                 </p>
                 <div className="flex items-center space-x-1 mt-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-505 animate-pulse"></span>
-                  <p className="font-mono text-[8.5px] font-semibold tracking-wider text-indigo-400 uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                  <p className="font-mono text-[8.5px] font-semibold tracking-wider text-[#a5b4fc] uppercase">
                     {userRole === "Owner" ? "Owner" : "Office"}
                   </p>
                 </div>

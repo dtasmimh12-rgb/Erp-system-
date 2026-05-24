@@ -49,13 +49,13 @@ export default function Header({
   }
 
   return (
-    <header className="sticky top-0 bg-white dark:bg-[#0f172a] border-b border-slate-200 dark:border-slate-800 h-16 flex items-center justify-between px-6 z-30 shrink-0 shadow-sm transition-colors duration-200">
+    <header className="sticky top-0 bg-white/90 dark:bg-[#05040e]/95 backdrop-blur-md border-b border-[#f1f3f9] dark:border-[#1a183d] h-16 flex items-center justify-between px-6 z-30 shrink-0 shadow-xs transition-all duration-200">
       
       {/* Search Input Left */}
       <div className="flex items-center space-x-3 flex-1 max-w-sm sm:max-w-md">
         <button 
           onClick={toggleSidebar}
-          className="p-1.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden focus:outline-hidden"
+          className="p-1.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-900/55 lg:hidden focus:outline-hidden"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -65,7 +65,7 @@ export default function Header({
         {/* Collapsible Sidebar Button for Desktop */}
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hidden lg:flex p-1.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none"
+          className="hidden lg:flex p-1.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-900/55 focus:outline-none"
           title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
         >
           <svg className={`w-5 h-5 transition-transform duration-200 ${isCollapsed ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,10 +74,10 @@ export default function Header({
         </button>
 
         <div className="relative w-full">
-          <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
+          <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-slate-400 dark:text-[#8c88c7]" />
           <input
             type="text"
-            className="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full pl-9 pr-4 py-1.5 text-xs text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden focus:border-indigo-500 dark:focus:border-emerald-500 focus:bg-white dark:focus:bg-slate-850 transition-all font-sans"
+            className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-[#161434] rounded-full pl-9 pr-4 py-1.5 text-xs text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden focus:border-indigo-500 dark:focus:border-emerald-500 focus:bg-white dark:focus:bg-slate-950 transition-all font-sans"
             placeholder={lang === "EN" ? "Search records, orders, items..." : "রেকর্ড, অর্ডার বা আইটেম খুঁজুন..."}
             value={searchTerm}
             onChange={handleSearchChange}
@@ -91,7 +91,7 @@ export default function Header({
         {/* Light/Dark Toggle */}
         <button
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          className="p-1.5 sm:p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 transition-all"
+          className="p-1.5 sm:p-2 text-slate-500 hover:text-slate-800 dark:text-[#a5b4fc] dark:hover:text-[#34d399] rounded-full bg-slate-50 dark:bg-[#100e26] border border-slate-200 dark:border-[#161434] hover:bg-slate-100 dark:hover:bg-[#161434] transition-all shadow-xs duration-200"
           title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
         >
           {theme === "light" ? <Moon size={15} /> : <Sun size={15} className="text-amber-400" />}
@@ -100,10 +100,10 @@ export default function Header({
         {/* Language Switch */}
         <button 
           onClick={() => setLang(lang === "EN" ? "BN" : "EN")}
-          className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-750 transition-colors"
+          className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-slate-50 dark:bg-[#100e26] border border-slate-200 dark:border-[#161434] text-[10px] font-bold text-slate-600 dark:text-[#a5b4fc] hover:bg-slate-100 dark:hover:bg-[#161434] transition-all duration-200 shadow-xs"
           title={lang === "EN" ? "Switch to Bangla" : "ইংরেজিতে পরিবর্তন করুন"}
         >
-          <Globe size={11} className="text-indigo-600 dark:text-emerald-400" />
+          <Globe size={11} className="text-indigo-600 dark:text-[#10b981]" />
           <span className="font-mono tracking-wider">{lang}</span>
         </button>
 
@@ -111,7 +111,7 @@ export default function Header({
         <div className="relative">
           <button 
             onClick={() => setShowRoleMenu(!showRoleMenu)}
-            className="flex items-center space-x-1 px-2.5 py-1.5 rounded-full bg-indigo-50 dark:bg-emerald-500/10 border border-indigo-100 dark:border-emerald-500/20 text-[10px] font-bold text-indigo-600 dark:text-emerald-400 hover:bg-indigo-100 dark:hover:bg-emerald-500/20 transition-colors"
+            className="flex items-center space-x-1 px-2.5 py-1.5 rounded-full bg-indigo-50 dark:bg-emerald-500/10 border border-indigo-150 dark:border-emerald-500/20 text-[10px] font-bold text-indigo-650 dark:text-[#10b981] hover:bg-indigo-150/80 dark:hover:bg-emerald-500/20 transition-all duration-200 shadow-xs"
           >
             <ArrowLeftRight size={11} className="hidden sm:inline" />
             <span>{lang === "EN" ? "Switch Role" : "ভূমিকা পরিবর্তন"}</span>
