@@ -748,7 +748,7 @@ export default function App() {
 
   // 2. PRIMARY APPLICATION WORKSPACE (Authenticated App Layout)
   return (
-    <div className={`min-h-screen ${theme === "dark" ? "dark bg-[#04030a] text-[#f1f3f9]" : "bg-[#fcfcff] text-slate-700"} flex font-sans h-screen overflow-hidden`}>
+    <div className={`min-h-screen ${theme === "dark" ? "dark bg-slate-950 text-slate-100" : "bg-slate-50/50 text-slate-700"} flex font-sans h-screen overflow-hidden`}>
       
       {/* Drawer Sidebar */}
       <Sidebar 
@@ -781,9 +781,9 @@ export default function App() {
 
         {/* Dynamic Action Notification Banner */}
         {statusBanner && (
-          <div className="bg-slate-900 dark:bg-[#04030a] border-b border-indigo-950 px-6 py-2.5 flex items-center justify-between text-[#0ea5e9] dark:text-[#05b074] text-xs font-semibold animate-fade-in no-print z-20">
+          <div className="bg-slate-900 dark:bg-slate-950 border-b border-indigo-950/20 px-6 py-2.5 flex items-center justify-between text-[#0ea5e9] dark:text-[#10b981] text-xs font-semibold animate-fade-in no-print z-20">
             <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-[#05b074] animate-ping"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-[#10b981] animate-ping"></span>
               <span>{statusBanner}</span>
             </div>
             <button onClick={() => setStatusBanner("")} className="text-[#0ea5e9] hover:text-white font-mono">
@@ -793,7 +793,7 @@ export default function App() {
         )}
 
         {/* Router View Flow Content */}
-        <main className={`flex-1 overflow-y-auto px-6 py-5 transition-colors duration-250 ${theme === "dark" ? "bg-[#080716] text-[#eef2ff]" : "bg-[#fcfcff] text-slate-750"}`}>
+        <main className={`flex-1 overflow-y-auto px-6 py-5 transition-colors duration-250 ${theme === "dark" ? "bg-slate-900 text-slate-100" : "bg-slate-50 text-slate-700"}`}>
           
           {/* OWNER OVERVIEW DASHBOARD */}
           {activeTab === "owner-dash" && (

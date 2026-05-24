@@ -101,22 +101,22 @@ export default function Sidebar({
       )}
 
       <aside className={`
-        fixed inset-y-0 left-0 z-50 flex flex-col ${isCollapsed ? "lg:w-16 w-60" : "w-64"} bg-[#0b0a1f] text-slate-300 border-r border-[#1a183d] transition-all duration-300 ease-in-out transform
+        fixed inset-y-0 left-0 z-50 flex flex-col ${isCollapsed ? "lg:w-16 w-60" : "w-64"} bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 transition-all duration-300 ease-in-out transform
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0 lg:static lg:h-screen
       `}>
         {/* Sidebar Header */}
-        <div className={`flex items-center ${isCollapsed ? "justify-center animate-fade-in" : "justify-between"} h-16 px-4 border-b border-[#1a183d] bg-[#05040e]/95 backdrop-blur-xs transition-all duration-300`}>
+        <div className={`flex items-center ${isCollapsed ? "justify-center animate-fade-in" : "justify-between"} h-16 px-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#070512]/95 backdrop-blur-xs transition-all duration-300`}>
           <div className="flex items-center space-x-2.5">
             <div className="flex items-shrink-0 items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-purple-600 font-display font-semibold text-white text-md shadow-lg shadow-indigo-600/30">
               O
             </div>
             {!isCollapsed && (
               <div className="animate-fade-in text-left">
-                <h1 className="font-display font-semibold text-[11px] tracking-tight text-white uppercase whitespace-nowrap">
-                  OTTOMASS <span className="text-emerald-400 font-bold ml-0.5">JACQUARD</span>
+                <h1 className="font-display font-semibold text-[11px] tracking-tight text-slate-950 dark:text-white uppercase whitespace-nowrap">
+                  OTTOMASS <span className="text-indigo-600 dark:text-emerald-400 font-bold ml-0.5">JACQUARD</span>
                 </h1>
-                <p className="font-mono text-[8px] tracking-widest text-[#a5b4fc]/70 font-semibold uppercase leading-none mt-0.5">
+                <p className="font-mono text-[8px] tracking-widest text-slate-500 dark:text-[#a5b4fc]/70 font-semibold uppercase leading-none mt-0.5">
                   Enterprise ERP
                 </p>
               </div>
@@ -125,7 +125,7 @@ export default function Sidebar({
           {!isCollapsed && (
             <button 
               onClick={() => setIsOpen(false)}
-              className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 lg:hidden focus:outline-hidden"
+              className="p-1 text-slate-400 hover:text-slate-500 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden focus:outline-hidden"
             >
               <X size={18} />
             </button>
@@ -133,26 +133,26 @@ export default function Sidebar({
         </div>
 
         {/* User Info Capsule */}
-        <div className={`px-3 py-3 border-b border-[#1a183d] bg-[#05040e]/30 ${isCollapsed ? "flex justify-center" : ""}`}>
+        <div className={`px-3 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-[#070512]/30 ${isCollapsed ? "flex justify-center" : ""}`}>
           {isCollapsed ? (
             <div 
-              className="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-950/80 text-[10px] text-[#818cf8] font-bold border border-indigo-800/40 cursor-help animate-fade-in"
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-indigo-950/80 text-[10px] text-slate-700 dark:text-[#818cf8] font-bold border border-slate-200 dark:border-indigo-800/40 cursor-help animate-fade-in"
               title={userRole === "Owner" ? "Mr. Tariqul Islam (Owner)" : "Office Staff / Manager (Office)"}
             >
               {userRole[0]}
             </div>
           ) : (
-            <div className="flex items-center space-x-2.5 p-2 rounded-lg bg-indigo-950/40 border border-[#1a183d] w-full animate-fade-in">
-              <div className="flex items-shrink-0 items-center justify-center w-7 h-7 rounded-full bg-indigo-950 text-[10px] text-[#818cf8] font-bold border border-indigo-800/30">
+            <div className="flex items-center space-x-2.5 p-2 rounded-lg bg-slate-100/60 dark:bg-indigo-950/40 border border-slate-200 dark:border-[#1a183d] w-full animate-fade-in">
+              <div className="flex items-shrink-0 items-center justify-center w-7 h-7 rounded-full bg-slate-200 dark:bg-indigo-950 text-[10px] text-slate-750 dark:text-[#818cf8] font-bold border border-slate-300 dark:border-indigo-800/30">
                 {userRole[0]}
               </div>
               <div className="overflow-hidden text-left">
-                <p className="font-sans font-medium text-[11px] text-slate-100 truncate pr-1 whitespace-nowrap">
+                <p className="font-sans font-semibold text-[11px] text-slate-800 dark:text-slate-100 truncate pr-1 whitespace-nowrap">
                   {userRole === "Owner" ? "Mr. Tariqul Islam" : "Office Staff / Manager"}
                 </p>
                 <div className="flex items-center space-x-1 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
-                  <p className="font-mono text-[8.5px] font-semibold tracking-wider text-[#a5b4fc] uppercase">
+                  <p className="font-mono text-[8.5px] font-bold tracking-wider text-indigo-600 dark:text-[#a5b4fc] uppercase">
                     {userRole === "Owner" ? "Owner" : "Office"}
                   </p>
                 </div>
@@ -162,13 +162,13 @@ export default function Sidebar({
         </div>
 
         {/* Navigation links */}
-        <nav className="flex-1 px-2 py-4 overflow-y-auto space-y-5 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
+        <nav className="flex-1 px-2 py-4 overflow-y-auto space-y-5 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800 scrollbar-track-transparent">
           {/* Dashboard menu */}
           <div>
             {isCollapsed ? (
-              <div className="h-[1px] bg-slate-850 my-2" />
+              <div className="h-[1px] bg-slate-200 dark:bg-slate-850 my-2" />
             ) : (
-              <p className="font-mono text-[8.5px] font-semibold text-slate-500 uppercase tracking-widest px-2.5 mb-2 text-left">
+              <p className="font-mono text-[8.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-2.5 mb-2 text-left">
                 Core Modules
               </p>
             )}
@@ -184,21 +184,21 @@ export default function Sidebar({
                       disabled={!isAllowed}
                       title={item.name}
                       className={`
-                        w-full flex items-center ${isCollapsed ? "justify-center p-2.5" : "justify-between px-2.5 py-2.5"} rounded-md text-xs font-medium transition-all group
+                        w-full flex items-center ${isCollapsed ? "justify-center p-2.5" : "justify-between px-2.5 py-2.5"} rounded-md text-xs font-semibold transition-all group
                         ${isActive 
-                          ? "bg-indigo-600 border-l-4 border-indigo-400 text-white font-semibold shadow-md shadow-indigo-600/10" 
+                          ? "bg-indigo-50/50 dark:bg-slate-850 border-l-4 border-indigo-600 dark:border-emerald-500 text-indigo-600 dark:text-white font-bold shadow-xs" 
                           : isAllowed 
-                            ? "text-slate-350 hover:text-white hover:bg-slate-800/40" 
-                            : "text-slate-600 cursor-not-allowed opacity-50"
+                            ? "text-slate-600 dark:text-slate-350 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/40" 
+                            : "text-slate-300 dark:text-slate-600 cursor-not-allowed opacity-50"
                         }
                       `}
                     >
                       <div className={`flex items-center ${isCollapsed ? "space-x-0" : "space-x-2.5"}`}>
-                        <item.icon size={isCollapsed ? 16 : 14} className={isActive ? "text-indigo-200" : "text-slate-400 group-hover:text-slate-250"} />
+                        <item.icon size={isCollapsed ? 16 : 14} className={isActive ? "text-indigo-650 dark:text-emerald-400" : "text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-slate-200"} />
                         {!isCollapsed && <span className="truncate">{item.name}</span>}
                       </div>
                       {!isCollapsed && !isAllowed && (
-                        <Lock size={11} className="text-slate-650" />
+                        <Lock size={11} className="text-slate-300 dark:text-slate-650" />
                       )}
                     </button>
                   </li>
@@ -210,9 +210,9 @@ export default function Sidebar({
           {/* Master control panels */}
           <div>
             {isCollapsed ? (
-              <div className="h-[1px] bg-slate-850 my-2" />
+              <div className="h-[1px] bg-slate-200 dark:bg-slate-850 my-2" />
             ) : (
-              <p className="font-mono text-[8.5px] font-semibold text-slate-500 uppercase tracking-widest px-2.5 mb-2 text-left">
+              <p className="font-mono text-[8.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-2.5 mb-2 text-left">
                 Specialized Panels
               </p>
             )}
@@ -228,21 +228,21 @@ export default function Sidebar({
                       disabled={!isAllowed}
                       title={item.name}
                       className={`
-                        w-full flex items-center ${isCollapsed ? "justify-center p-2.5" : "justify-between px-2.5 py-2.5"} rounded-md text-xs font-medium transition-all group
+                        w-full flex items-center ${isCollapsed ? "justify-center p-2.5" : "justify-between px-2.5 py-2.5"} rounded-md text-xs font-semibold transition-all group
                         ${isActive 
-                          ? "bg-indigo-600 border-l-4 border-indigo-400 text-white font-semibold shadow-md shadow-indigo-600/10" 
+                          ? "bg-indigo-50/50 dark:bg-slate-850 border-l-4 border-indigo-600 dark:border-emerald-500 text-indigo-600 dark:text-white font-bold shadow-xs" 
                           : isAllowed 
-                            ? "text-slate-350 hover:text-white hover:bg-slate-800/40" 
-                            : "text-slate-600 cursor-not-allowed opacity-50"
+                            ? "text-slate-600 dark:text-slate-350 hover:text-indigo-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/40" 
+                            : "text-slate-300 dark:text-slate-600 cursor-not-allowed opacity-50"
                         }
                       `}
                     >
                       <div className={`flex items-center ${isCollapsed ? "space-x-0" : "space-x-2.5"}`}>
-                        <item.icon size={isCollapsed ? 16 : 14} className={isActive ? "text-indigo-200" : "text-slate-400 group-hover:text-slate-250"} />
+                        <item.icon size={isCollapsed ? 16 : 14} className={isActive ? "text-indigo-650 dark:text-emerald-400" : "text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-slate-200"} />
                         {!isCollapsed && <span className="truncate">{item.name}</span>}
                       </div>
                       {!isCollapsed && !isAllowed && (
-                        <Lock size={11} className="text-slate-650" />
+                        <Lock size={11} className="text-slate-300 dark:text-slate-650" />
                       )}
                     </button>
                   </li>
@@ -253,16 +253,16 @@ export default function Sidebar({
         </nav>
 
         {/* Footer info & status */}
-        <div className={`p-3.5 bg-slate-950/40 border-t border-[#334155] ${isCollapsed ? "flex justify-center" : ""}`}>
+        <div className={`p-3.5 bg-slate-50 dark:bg-slate-950/40 border-t border-slate-200 dark:border-slate-800 ${isCollapsed ? "flex justify-center" : ""}`}>
           {isCollapsed ? (
             <span className="w-2 h-2 rounded-full bg-emerald-500 cursor-help animate-pulse" title="System: Dhaka-01 (v1.1.2) - Status Live"></span>
           ) : (
             <div className="text-left">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="text-[10px] font-bold text-slate-300">System Status: Live</span>
+                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-300">System Status: Live</span>
               </div>
-              <div className="text-[9px] text-slate-500 font-mono">
+              <div className="text-[9px] text-slate-400 dark:text-slate-500 font-mono">
                 Server: Dhaka-01 (v1.1.2)
               </div>
             </div>

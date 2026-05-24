@@ -14,39 +14,39 @@
   
   --animate-fade-in: fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
-  /* Premium High Contrast light-theme slate overrides to prevent faint text labels */
+  /* Premium High-Contrast light-theme slate overrides to prevent faint text labels */
   --color-slate-50: #f8fafc;
   --color-slate-100: #f1f5f9;
   --color-slate-200: #e2e8f0;
   --color-slate-300: #cbd5e1;
-  --color-slate-400: #64748b; /* Sharpened contrast from standard 94a3b8 */
-  --color-slate-500: #475569; /* Crisp and easily readable secondary labels */
-  --color-slate-600: #334155;
-  --color-slate-700: #1e293b;
-  --color-slate-800: #0f172a;
-  --color-slate-900: #090d16;
-  --color-slate-950: #03050a;
+  --color-slate-400: #3b485c; /* Highly readable anthracite slate (no more faint gray text) */
+  --color-slate-500: #232d3d; /* Outstandingly crisp, strong charcoal body text */
+  --color-slate-600: #141b26; /* Extreme legibility */
+  --color-slate-700: #0a0d14;
+  --color-slate-800: #040508;
+  --color-slate-900: #010204;
+  --color-slate-950: #000001;
 }
 
 /* Precious Theme Overrides for Luxury Dark Mode & High contrast light mode */
 .dark {
-  /* Elevate standard slate colors into prestigious, deep precious jewel tones */
-  --color-slate-950: #030206;   /* Onyx velvet black background */
-  --color-slate-900: #070512;   /* Imperial deep amethyst background */
-  --color-slate-850: #0f0b24;   /* Elevating card background */
-  --color-slate-800: #161234;   /* Polished deep slate purple borders */
-  --color-slate-755: #211c4d;   /* Elegant border separators */
-  --color-slate-700: #2a2460;   /* Glowing structural rules */
+  /* High contrast, precious light-and-bright slate theme for absolute clarity and glowing jewel aesthetic */
+  --color-slate-950: #0b0f19;   /* Sleek, readable oceanic deep background (much brighter than black) */
+  --color-slate-900: #101726;   /* Midtone layout fill, highly polished */
+  --color-slate-850: #1c2538;   /* Beautiful bright card background style */
+  --color-slate-800: #2b3954;   /* Polished, clear jewel boundaries and borders */
+  --color-slate-755: #344666;   /* Outstanding separator lines */
+  --color-slate-700: #3e537a;   /* Highlights and structure borders */
   
   /* Luminous, highly legible silver-lavender values for dark-mode text */
-  --color-slate-600: #8881bd;   /* Easily readable supporting tag text */
-  --color-slate-500: #a7a1d7;   /* Highly legible secondary instructions & descriptions */
-  --color-slate-400: #c1bce6;   /* Rich, crispy body typography for forms and grids */
-  --color-slate-300: #dad7f3;   /* High-brightness metadata and tags */
-  --color-slate-200: #e9e7f9;   /* Ultra-vibrant subtitle helper */
-  --color-slate-101: #1a163b;   /* Extra dark line for HR header bounds */
-  --color-slate-100: #f5f4fd;   /* Sparkling title/paragraph copy */
-  --color-slate-50:  #fafaff;   /* Diamond white high-contrast headings */
+  --color-slate-600: #a5baf0;   /* Bright lavender-silver tag text */
+  --color-slate-500: #c5d3f8;   /* Bright secondary explanations */
+  --color-slate-400: #e2eafc;   /* Rich, crispy body typography for forms and grids */
+  --color-slate-300: #f1f5f9;   /* High-brightness title and tag typography */
+  --color-slate-200: #f8fafc;   
+  --color-slate-101: #2b3954;   /* Dark line for HR header bounds */
+  --color-slate-100: #ffffff;   /* Pure sparkling white */
+  --color-slate-50:  #ffffff;   /* Pure white */
 
   /* Swap standard Indigo and emerald tones for high-saturation, eye-catching jewel outputs */
   --color-indigo-650: #4f46e5;
@@ -63,33 +63,33 @@
 
 /* Custom classy overrides for hardcoded container colors in dark mode */
 .dark .dark\:bg-\[\#111827\] {
-  background-color: #0b0a1f !important;
-  border-color: #1a183d !important;
+  background-color: #1c2538 !important; /* Luminous bright card background! */
+  border-color: #2b3954 !important; /* Beautiful readable slate borders */
 }
 .dark .dark\:bg-slate-900 {
-  background-color: #070512 !important;
+  background-color: #101726 !important; /* Rich bright layout fill */
 }
 .dark .dark\:bg-[#111827] {
-  background-color: #0b0a1f !important;
-  border-color: #1a183d !important;
+  background-color: #1c2538 !important;
+  border-color: #2b3954 !important;
 }
 .dark .dark\:border-slate-850 {
-  border-color: #14112e !important;
+  border-color: #232d3d !important;
 }
 .dark .dark\:border-slate-800 {
-  border-color: #1a183d !important;
+  border-color: #2b3954 !important;
 }
 
 /* Custom layout background gradients for eye-catching look */
 .dark .dark-gradient-bg {
-  background: radial-gradient(circle at 50% 0%, #100b2a 0%, #030206 100%) !important;
+  background: radial-gradient(circle at 50% 0%, #1c2538 0%, #0b0f19 100%) !important;
 }
 
 /* Enhance tables for look and scan-density */
 .dark table thead.bg-\[\#111827\],
 .dark table thead.bg-slate-900 {
-  background-color: #0c0b24 !important;
-  border-color: #1a183d !important;
+  background-color: #1c2538 !important; /* Luminous bright table headers */
+  border-color: #2b3954 !important;
 }
 
 /* Premium text and badge gradients */
