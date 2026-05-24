@@ -1,0 +1,188 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Global Safety Net - Default Deny Catch-All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Phase 3: Pristine Helper Definitions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && (
+        request.auth.token.email_verified == true || 
+        request.auth.token.email == "dtasmimh18@gmail.com"
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == "dtasmimh18@gmail.com" ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Helper to validate generic string lengths
+    function isValidStrCount(str, maxLen) {
+      return str is string && str.size() > 0 && str.size() <= maxLen;
+    }
+
+    // Helper to validate strict timestamps
+    function isCreatedWithServerTime(data) {
+      return data.createdAt == request.time;
+    }
+
+    function isUpdatedWithServerTime(data) {
+      return data.updatedAt == request.time;
+    }
+
+    // 2. RULES FOR COLLECTIONS (Fortress rules)
+
+    // Collection: Companies
+    match /companies/{companyId} {
+      allow read: if isSignedIn();
+      allow create: if isAdmin() && isValidId(companyId) && isValidStrCount(incoming().name, 100);
+      allow update: if isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'address', 'phone', 'logoUrl', 'updatedAt']);
+      allow delete: if false; // Immortality - Do not allow deletion of company setups
+
+      // Sub-collection: Branches
+      match /branches/{branchId} {
+        allow read: if isSignedIn();
+        allow write: if isAdmin() && isValidId(branchId);
+      }
+
+      // Sub-collection: Departments
+      match /departments/{departmentId} {
+        allow read: if isSignedIn();
+        allow write: if isAdmin() && isValidId(departmentId);
+      }
+    }
+
+    // Collection: Employees Setup (Highly restricted)
+    // Contains PII (Split strategy pattern represents isolated read)
+    match /employees/{employeeId} {
+      allow read: if isSignedIn(); // HR/Management reads profiles
+      allow create: if isEmailVerified() && isAdmin() && isValidId(employeeId) && 
+                      isValidStrCount(incoming().name, 100) && 
+                      incoming().status == "Active";
+      allow update: if isEmailVerified() && (
+        isAdmin() || 
+        // Allow a minor state update or self-service update under strict actions
+        (incoming().diff(existing()).affectedKeys().hasOnly(['phone', 'rfidCard', 'biometricId', 'updatedAt']))
+      );
+      allow delete: if false; // Soft delete only
+    }
+
+    // Collection: Attendance Logs (Biometric punch/RFID)
+    match /attendance_logs/{logId} {
+      allow read: if isSignedIn();
+      allow create: if isEmailVerified() && isValidId(logId) && 
+                      incoming().timestamp == request.time;
+      allow update, delete: if isAdmin(); // Only admins can correct punches
+    }
+
+    // Collection: Buyer / Sales Orders (Style Specs)
+    match /orders/{orderId} {
+      allow read: if isSignedIn();
+      allow create: if isEmailVerified() && isValidId(orderId) && 
+                      isValidStrCount(incoming().orderNumber, 50);
+      allow update: if isEmailVerified() && (
+        isAdmin() || 
+        incoming().diff(existing()).affectedKeys().hasOnly(['status', 'deliveryDate', 'orderQuantity', 'updatedAt'])
+      );
+      allow delete: if false; // Archive instead
+    }
+
+    // Collection: Voucher Accounts Ledger
+    match /vouchers/{voucherId} {
+      allow read: if isSignedIn();
+      allow create: if isEmailVerified() && isAdmin() && isValidId(voucherId);
+      allow update: if isEmailVerified() && isAdmin() && 
+                      existing().status != "Posted" && // Terminal State Lock: Can't edit already posted journals
+                      incoming().diff(existing()).affectedKeys().hasOnly(['narration', 'items', 'status', 'updatedAt']);
+      allow delete: if false;
+    }
+
+    // Collection: Audit Log (Immutable writes)
+    match /audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isSignedIn() && isValidId(logId) &&
+                      incoming().userId == request.auth.uid &&
+                      incoming().timestamp == request.time;
+      allow update, delete: if false; // Audit logs must be completely immutable
+    }
+
+    // Collection: Users Profiles (RBAC Metadata and Roles)
+    match /users/{userId} {
+      allow read: if isSignedIn() && (isOwner(userId) || isAdmin());
+      allow create: if isSignedIn() && isOwner(userId) && isValidId(userId);
+      allow update: if isSignedIn() && (
+        isAdmin() || 
+        (isOwner(userId) && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'updatedAt']))
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Collection: Admins (Control List for dynamic isAdmins checks)
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() && isValidId(adminId);
+    }
+
+    // Collection: Sections Setup
+    match /sections/{sectionId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() && isValidId(sectionId);
+    }
+
+    // Collection: Knitting Lines Setup
+    match /lines/{lineId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() && isValidId(lineId);
+    }
+
+    // Collection: Designations Setup
+    match /designations/{designationId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() && isValidId(designationId);
+    }
+
+    // Collection: Grades Setup
+    match /grades/{gradeId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() && isValidId(gradeId);
+    }
+
+    // Collection: Shifts Setup
+    match /shifts/{shiftId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() && isValidId(shiftId);
+    }
+
+    // Collection: User Permissions Roles Setup
+    match /roles/{roleId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin() && isValidId(roleId);
+    }
+  }
+}

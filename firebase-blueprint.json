@@ -1,0 +1,194 @@
+{
+  "entities": {
+    "Company": {
+      "title": "Company Profile",
+      "description": "Information about the parent company OTTOMASS JACQUARD",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "country": { "type": "string" },
+        "currency": { "type": "string" },
+        "language": { "type": "string" },
+        "address": { "type": "string" },
+        "logoUrl": { "type": "string" }
+      },
+      "required": ["id", "name", "country", "currency"]
+    },
+    "Branch": {
+      "title": "Branch Setup",
+      "description": "Factory branch details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "location": { "type": "string" },
+        "code": { "type": "string" }
+      },
+      "required": ["id", "name", "code"]
+    },
+    "Department": {
+      "title": "Department Setup",
+      "description": "Departments such as HR, Production, Stores, Accounts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "code": { "type": "string" }
+      },
+      "required": ["id", "name", "code"]
+    },
+    "Employee": {
+      "title": "Employee Demographics & Employment Details",
+      "description": "Master employee records for jacquard workers, staff, and management",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "employeeId": { "type": "string" },
+        "name": { "type": "string" },
+        "banglaName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "nid": { "type": "string" },
+        "departmentId": { "type": "string" },
+        "sectionId": { "type": "string" },
+        "lineId": { "type": "string" },
+        "designationId": { "type": "string" },
+        "grade": { "type": "string" },
+        "salaryType": { "type": "string" },
+        "gender": { "type": "string" },
+        "rfidCard": { "type": "string" },
+        "biometricId": { "type": "string" },
+        "salaryStructure": { "type": "object" },
+        "status": { "type": "string", "enum": ["Active", "Inactive", "Resigned", "Terminated"] },
+        "joiningDate": { "type": "string", "format": "date" }
+      },
+      "required": ["id", "employeeId", "name", "departmentId", "designationId", "status"]
+    },
+    "AttendanceLog": {
+      "title": "Raw Punch Data",
+      "description": "Live and raw rfid/biometric scan events",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "employeeId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "device": { "type": "string" },
+        "type": { "type": "string", "enum": ["In", "Out"] }
+      },
+      "required": ["id", "employeeId", "timestamp", "type"]
+    },
+    "Order": {
+      "title": "Buyer Orders & Merchandising",
+      "description": "Sweater knitting styles under development or production",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "buyerName": { "type": "string" },
+        "styleNumber": { "type": "string" },
+        "gauge": { "type": "string" },
+        "productType": { "type": "string" },
+        "orderQuantity": { "type": "number" },
+        "deliveryDate": { "type": "string" },
+        "status": { "type": "string", "enum": ["Sampling", "Approved", "Planning", "Running", "Finished", "Shipped"] }
+      },
+      "required": ["id", "orderNumber", "buyerName", "styleNumber", "orderQuantity"]
+    },
+    "JournalVoucher": {
+      "title": "Double Entry Voucher Record",
+      "description": "Standard financial transactions for company ledger sync",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "voucherNo": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "narration": { "type": "string" },
+        "status": { "type": "string", "enum": ["Draft", "Approved", "Posted"] },
+        "createdBy": { "type": "string" },
+        "items": { "type": "array" }
+      },
+      "required": ["id", "voucherNo", "date", "status", "items"]
+    },
+    "AuditLog": {
+      "title": "System Audit Trail",
+      "description": "Immutable security records of actions within the ERP",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "target": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "action", "target", "timestamp"]
+    },
+    "User": {
+      "title": "User Profile Roster",
+      "description": "ERP user authentication and profile configurations including authorization role profiles",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["Admin", "Owner", "Office", "Staff"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "email", "role"]
+    },
+    "Admin": {
+      "title": "Bootstrap Admin Profile",
+      "description": "Admins with security authorization role definitions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" }
+      },
+      "required": ["id", "email"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and permissions metadata"
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "System-wide bootstrap administrators list"
+    },
+    "/companies/{companyId}": {
+      "schema": "Company",
+      "description": "Global settings profiles"
+    },
+    "/companies/{companyId}/branches/{branchId}": {
+      "schema": "Branch",
+      "description": "Branch factories"
+    },
+    "/companies/{companyId}/departments/{departmentId}": {
+      "schema": "Department",
+      "description": "Corporate structures and units"
+    },
+    "/employees/{employeeId}": {
+      "schema": "Employee",
+      "description": "Workforce profiles"
+    },
+    "/attendance_logs/{logId}": {
+      "schema": "AttendanceLog",
+      "description": "Worker attendance timecards"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Buyer orders and style card specs"
+    },
+    "/vouchers/{voucherId}": {
+      "schema": "JournalVoucher",
+      "description": "Double entry accounts journal vouchers"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Security events and logins log"
+    }
+  }
+}

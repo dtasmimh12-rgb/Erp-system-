@@ -1,0 +1,8 @@
+{
+  "name": "Remix: OTTOMASS JACQUARD ERP",
+  "description": "A comprehensive React / Node.js ERP system tailored for sweater parts manufacturing and Jacquard knitting factories in Bangladesh. Features HR/biometric attendance, production monitoring, full double-entry accounts, AI Business Advisor, and merchandising.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
